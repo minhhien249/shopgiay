@@ -1,4 +1,4 @@
-@extends('admin.layout.main')
+@extends('admin.layouts.main')
 @section('content')
 <div class="row page-title">
                             <div class="col-md-12">
@@ -40,12 +40,6 @@
                                                         <label class="col-lg-2 col-form-label" for="simpleinput">Tên</label>
                                                         <div class="col-lg-10">
                                                             <input type="text" class="form-control" id="simpleinput" name="name">
-                                                        </div>
-                                                    </div>
-                                                    <div class="form-group row">
-                                                        <label class="col-lg-2 col-form-label" for="example-fileinput">Ảnh</label>
-                                                        <div class="col-lg-10">
-                                                            <input type="file" class="form-control" id="example-fileinput" name="image">
                                                         </div>
                                                     </div>
                                                     <div class="form-group row">

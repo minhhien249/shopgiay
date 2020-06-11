@@ -33,7 +33,7 @@ class AdminController extends Controller
             return redirect()->route('admin.dashboard');
         }else
         {
-            return redirect()->back()->with('msg', 'Email hoặc Password không chính xác');;
+            return redirect()->back()->with('msg', 'Email hoặc Password không chính xác');
         }
         
     }

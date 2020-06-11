@@ -1,4 +1,4 @@
-@extends('admin.layout.main')
+@extends('admin.layouts.main')
 @section('content')
 <div class="row page-title">
                             <div class="col-md-12">
@@ -20,10 +20,6 @@
                                                     <tr>
                                                         <td><b>Tên danh mục:</b></td>
                                                         <td>{{ $data->name }}</td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><b>Hình ảnh:</b></td>
-                                                        <td>{{ $data->image }}</td>
                                                     </tr>
                                                     <tr>
                                                         <td><b>Danh mục cha:</b></td>

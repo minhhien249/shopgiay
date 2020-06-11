@@ -13,11 +13,12 @@ class BannerController extends Controller
      */
     public function index()
     {
-        $data = Banner::all();
-        return view('admin.banner.index',[
-        	'data' => $data
-        ]);
+        $data = Banner::latest()->paginate(10); // sắp sếp theo thứ tự mới nhất && phân trang
 
+        // gọi đến view
+        return view('admin.banner.index', [
+            'data' => $data // truyền dữ liệu sang view Index
+        ]);
     }
 
     /**
@@ -27,10 +28,9 @@ class BannerController extends Controller
      */
     public function create()
     {
-    	$data = Banner::all();
-        return view('admin.banner.create',[
-        	'data' => $data
-        ]);
+        $data = Banner::all(); // lấy toàn bộ dữ liệu
+        // gọi đến view create
+        return view('admin.banner.create');
     }
 
     /**
@@ -41,38 +41,48 @@ class BannerController extends Controller
      */
     public function store(Request $request)
     {
+        //validate dữ liệu
         $validatedData = $request->validate([
             'title' => 'required|max:255',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000'
         ]);
-        //luu vào csdl
-        $banner = new Banner;
+
+        //Khởi tạo Model và gán giá trị từ form cho những thuộc tính của đối tượng (cột trong CSDL)
+        $banner = new Banner();
         $banner->title = $request->input('title');
-        $banner->slug = str_slug($request->input('title'));
-        if ($request->hasFile('image')) {
+        $banner->slug = str_slug($request->input('title')); // slug
+
+        if ($request->hasFile('image')) { // dòng này Kiểm tra xem có image có được chọn
             // get file
             $file = $request->file('image');
-            // get ten
-            $filename = time().'_'.$file->getClientOriginalName();
-            // duong dan upload
-            $path_upload = 'uploads/banner/';
-            // upload file
+            // đặt tên cho file image
+            $filename = time().'_'.$file->getClientOriginalName(); // $file->getClientOriginalName() == tên ban đầu của image
+            // Định nghĩa đường dẫn sẽ upload lên
+            $path_upload = 'uploads/banner/'; // uploads/brand ; uploads/vendor
+            // Thực hiện upload file
             $request->file('image')->move($path_upload,$filename);
 
             $banner->image = $path_upload.$filename;
         }
+
+        // Url
         $banner->url = $request->input('url');
-        $banner->target = $request->input('Target');
-        $banner->description = $request->input('description');
-        $banner->position = $request->input('position');
-        $is_active = 0;
+        // Target
+        $banner->target = $request->input('target');
+        // Loại
+        $banner->type = $request->input('type');
+        // Trạng thái
         if ($request->has('is_active')){//kiem tra is_active co ton tai khong?
-            $is_active = $request->input('is_active');
+            $banner->is_active = $request->input('is_active');
         }
-        $banner->is_active = $is_active;
+        // Vị trí
+        $banner->position = $request->input('position');
+        // Mô tả
+        $banner->description = $request->input('description');
+        // Lưu
         $banner->save();
 
-        // chuyen dieu huong trang
+        // Chuyển hướng trang về trang danh sách
         return redirect()->route('admin.banner.index');
     }
 
@@ -84,11 +94,13 @@ class BannerController extends Controller
      */
     public function show($id)
     {
-        $data = Banner::find($id);
-        return view('admin.banner.show',[
-        	'data' => $data
-        ]);
+        // Sử dụng hàm findorFail tìm kiếm theo Id, nếu tìm thấy sẽ trả về object , nếu không trả về lỗi
+        $data = Banner::findorFail($id);
 
+        // Gọi tới view
+        return view('admin.banner.show', [
+            'data' => $data // truyền dữ liệu sang view show
+        ]);
     }
 
     /**
@@ -99,8 +111,11 @@ class BannerController extends Controller
      */
     public function edit($id)
     {
-        return view('admin.banner.edit',[
-        	'data' => $data
+        // Sử dụng hàm findorFail tìm kiếm theo Id, nếu tìm thấy sẽ trả về object , nếu không trả về lỗi
+        $banner = Banner::findorFail($id);
+
+        return view('admin.banner.edit', [
+            'banner' => $banner
         ]);
     }
 
@@ -113,17 +128,20 @@ class BannerController extends Controller
      */
     public function update(Request $request, $id)
     {
+        //validate dữ liệu
         $validatedData = $request->validate([
-            'name' => 'required|max:255',
+            'title' => 'required|max:255',
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:10000'
         ]);
-        //luu vào csdl
+
+        //Lấy đối tượng  và gán giá trị từ form cho những thuộc tính của đối tượng (cột trong CSDL)
         $banner = Banner::findorFail($id);
-        $banner->title = $request->input('name');
-        $banner->slug = str_slug($request->input('name'));
+        $banner->title = $request->input('title');
+        $banner->slug = str_slug($request->input('title')); // slug
+
         if ($request->hasFile('new_image')) { // dòng này Kiểm tra xem có image có được chọn
             // xóa file cũ
-            @unlink(public_path($brand->image)); // hàm unlink của PHP không phải laravel , chúng ta thêm @ đằng trước tránh bị lỗi
+            @unlink(public_path($banner->image)); // hàm unlink của PHP không phải laravel , chúng ta thêm @ đằng trước tránh bị lỗi
             // get new_image
             $file = $request->file('new_image');
             // đặt tên cho file new_image
@@ -133,21 +151,28 @@ class BannerController extends Controller
             // Thực hiện upload file
             $request->file('new_image')->move($path_upload,$filename);
 
-            $brand->image = $path_upload.$filename; // gán giá trị ảnh mới cho thuộc tính image của đối tượng
+            $banner->image = $path_upload.$filename; // gán giá trị ảnh mới cho thuộc tính image của đối tượng
         }
+
+        // Url
         $banner->url = $request->input('url');
-        $banner->target = $request->input('name');
-        $banner->description = $request->input('description');
-        $banner->type = $request->input('description');
-        $banner->position = $request->input('description');
-        $is_active = 0;
-        if ($request->has('is_active')){//kiem tra is_active co ton tai khong?
-            $is_active = $request->input('is_active');
+        // Target
+        $banner->target = $request->input('target');
+        // Loại
+        $banner->type = $request->input('type');
+        // Trạng thái
+        $banner->is_active = 0;
+        if ($request->has('is_active')) {//kiem tra is_active co ton tai khong?
+            $banner->is_active = $request->input('is_active');
         }
-        $banner->is_active = $is_active;
+        // Vị trí
+        $banner->position = $request->input('position');
+        // Mô tả
+        $banner->description = $request->input('description');
+        // Lưu
         $banner->save();
 
-        // chuyen dieu huong trang
+        // Chuyển hướng trang về trang danh sách
         return redirect()->route('admin.banner.index');
     }
 
@@ -159,7 +184,10 @@ class BannerController extends Controller
      */
     public function destroy($id)
     {
-        Category::banner($id);
+        // gọi tới hàm destroy của laravel để xóa 1 object
+        Banner::destroy($id);
+
+        // Trả về dữ liệu json và trạng thái kèm theo thành công là 200
         return response()->json([
             'status' => true
         ], 200);

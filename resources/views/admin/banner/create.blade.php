@@ -1,4 +1,4 @@
-@extends('admin.layout.main')
+@extends('admin.layouts.main')
 @section('content')
 <div class="row page-title">
                             <div class="col-md-12">
@@ -37,11 +37,20 @@
                                                     </div>
                                                     <div class="form-group row">
                                                         <label class="col-lg-2 col-form-label" for="example-fileinput">Target</label>
-                                                        <select class="custom-select mb-2" name="Target">
+                                            <select class="custom-select mb-2" name="Target">
                                             <option selected="" value="0"></option>
                                             <option value="1">_blank</option>
                                             </select>
                                                     </div>
+                                                    <div class="form-group row">
+                                                        <label class="col-lg-2 col-form-label" for="example-fileinput">Loại</label>
+                                            <select class="form-control" name="type">
+                                    <option value="1">slide</option>
+                                    <option value="2">background</option>
+                                </select>
+                                                    </div>
+                                                    
+                           
                                                     <div class="form-group row">
                                                         <label class="col-lg-12 col-form-label">Mô tả</label>
                                                         <div class="col-lg-12">
@@ -70,10 +79,11 @@
             </div>
 @endsection
 @section('my_javascript')
-        <script>
-        $(function() {
+    <script type="text/javascript">
+        $(function () {
             // setup textarea sử dụng plugin CKeditor
-            CKEDITOR.replace( 'editor1' );
+            var _ckeditor = CKEDITOR.replace('editor1');
+            _ckeditor.config.height = 200; // thiết lập chiều cao
         })
-        </script>
+    </script>
 @endsection

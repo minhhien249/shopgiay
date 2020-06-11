@@ -47,18 +47,6 @@ class CategoryController extends Controller
         $category = new Category;
         $category->name = $request->input('name');
         $category->slug = str_slug($request->input('name'));
-        if ($request->hasFile('image')) {
-            // get file
-            $file = $request->file('image');
-            // get ten
-            $filename = time().'_'.$file->getClientOriginalName();
-            // duong dan upload
-            $path_upload = 'uploads/category/';
-            // upload file
-            $request->file('image')->move($path_upload,$filename);
-
-            $category->image = $path_upload.$filename;
-        }
         $category->parent_id = $request->input('parent_id');
         $category->position = $request->input('position');
         $is_active = 0;
@@ -120,19 +108,6 @@ class CategoryController extends Controller
         $category = Category::findorFail($id);
         $category->name = $request->input('name');
         $category->slug = str_slug($request->input('name'));
-        if ($request->hasFile('image')) {
-            // get file
-            $file = $request->file('image');
-            // get ten
-            $filename = time().'_'.$file->getClientOriginalName();
-            // duong dan upload
-            $path_upload = 'uploads/category/';
-            // upload file
-            $request->file('image')->move($path_upload,$filename);
-
-            $category->image = $path_upload.$filename;
-        }
-
         $category->parent_id = $request->input('parent_id');
         $category->position = $request->input('position');
         $is_active = 0;

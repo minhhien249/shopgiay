@@ -1,5 +1,5 @@
 
-@extends('admin.layout.main')
+@extends('admin.layouts.main')
 @section('content')
 <div class="row page-title">
                             <div class="col-md-12">
@@ -34,16 +34,7 @@
                                                             <input type="text" class="form-control" id="simpleinput" name="name" value="{{$category->name}}">
                                                         </div>
                                                     </div>
-                                                    <div class="form-group row">
-                                                        <label class="col-lg-2 col-form-label" for="example-fileinput">Ảnh</label>
-                                                        <div class="col-lg-10">
-                                                            <input type="file" class="form-control" id="new_image" name="new_image">
-                                                            <br>
-                                                            @if ($item->image)
-                                                                <img src="{{asset($category->image)}}" width="200">
-                                                            @endif
-                                                        </div>
-                                                    </div>
+                                                    
                                                     <div class="form-group row">
                                                         <label class="col-lg-2 col-form-label">Vị trí</label>
                                                         <div class="col-lg-10">

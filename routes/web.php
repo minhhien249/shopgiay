@@ -28,7 +28,13 @@ Route::group(['prefix' => 'admin','as' => 'admin.','middleware' => ['CheckLogin'
    	// Router cho Banner
    	Route::resource('banner','BannerController');
    	// Router cho Banner
+   	Route::resource('brand','BrandController');
+   	// Router cho Banner
+   	Route::resource('product','ProductController');
+   	// Router cho Banner
    	Route::resource('user','UserController');
+   	// Router cho Banner
+   	Route::resource('blog','BlogController');
    	// Router cho Banner
    	Route::resource('test','TestController');
    	Route::post('delete', 'ImageUploadController@delete');
