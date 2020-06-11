@@ -1,0 +1,105 @@
+@extends('admin.layout.main')
+@section('content')
+<div class="row page-title">
+                            <div class="col-md-12">
+                                <div aria-label="breadcrumb" class="float-right mt-1">
+                                    <a class="btn btn-primary" href="{{route('admin.category.create')}}">Thêm mới</a>
+                                </div>
+                                <h4 class="mb-1 mt-0">Danh sách</h4>
+                            </div>
+</div>
+                <div class="row">
+                            <div class="col-lg-12">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h4 class="header-title mt-0 mb-1">Category</h4>
+    
+                                        <div class="table-responsive">
+                                            <table class="table m-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Menu</th>
+                                                        <th style="background: #FAF3D5;">Cấp 1</th>
+                                                        <th style="background:#F5F5DC">Cấp 2</th>
+                                                        <th style="background:#FFFDF2">Cấp 3</th>
+                                                        <th>Trạng Thái</th>
+                                                        <th>Vị trí</th>
+                                                        <th>Thao tác</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+
+                                                    @foreach($data as $key => $item)
+                                                    <tr class="item-{{$item->id}}">
+                                                        <td></td>
+                                                        <td colspan="3" style="    background: #FAF3D5;">{{$item->name}}</td>
+                                                        <td>{{$item->is_active !=0 ? 'Hiển thị' : 'Ẩn'  }}</td>
+                                                        <td>{{$item->position}}</td>
+                                                        <td>
+                                                            <div class="d-flex">
+                                                            <a class="mr-1 btn btn-success" href="{{route('admin.category.show', ['id'=> $item->id ])}}">Xem</a>
+                                                            <a class="btn mr-1 btn-primary" href="{{route('admin.category.edit', ['id'=> $item->id ])}}">Sửa</a>
+                                                            <form method="POST" action="{{ route('admin.category.destroy', ['item' => $item->id]) }}">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button class="btn btn-danger" type="submit">Xóa</button>
+                                                            </form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    @if(count($item->subcategory))
+                                                    @foreach($item->subcategory as $subcategory)
+                                                    <tr class="item-{{$subcategory->id}}">
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td colspan="2" style="background:#F5F5DC">
+                                                         {{$subcategory->name}}</td>
+                                                        <td>{{$subcategory->is_active !=0 ? 'Hiển thị' : 'Ẩn'  }}</td>
+                                                        <td>{{$subcategory->position}}</td>
+                                                        <td>
+                                                            <div class="d-flex">
+                                                            <a class="mr-1 btn btn-success" href="{{route('admin.category.show', ['id'=> $subcategory->id ])}}">Xem</a>
+                                                            <a class="btn mr-1 btn-primary" href="{{route('admin.category.edit', ['id'=> $subcategory->id ])}}">Sửa</a>
+                                                            <form method="POST" action="{{ route('admin.category.destroy', ['item' => $subcategory->id]) }}">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button class="btn btn-danger" type="submit">Xóa</button>
+                                                            </form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                     @if(count($subcategory->subcategory))
+                                                     @foreach($subcategory->subcategory as $subcategory)
+                                                     <tr class="item-{{$subcategory->id}}">
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td></td>
+                                                        <td style="background:#FFFDF2">{{$subcategory->name}}</td>
+                                                        <td>{{$subcategory->is_active !=0 ? 'Hiển thị' : 'Ẩn'  }}</td>
+                                                        <td>{{$subcategory->position}}</td>
+                                                        <td>
+                                                            <div class="d-flex">
+                                                            <a class="mr-1 btn btn-success" href="{{route('admin.category.show', ['id'=> $subcategory->id ])}}">Xem</a>
+                                                            <a class="btn mr-1 btn-primary" href="{{route('admin.category.edit', ['id'=> $subcategory->id ])}}">Sửa</a>
+                                                            <form method="POST" action="{{ route('admin.category.destroy', ['item' => $subcategory->id]) }}">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button class="btn btn-danger" type="submit">Xóa</button>
+                                                            </form>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                     @endforeach
+                                                     @endif
+                                                    @endforeach
+                                                    @endif
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+@endsection
