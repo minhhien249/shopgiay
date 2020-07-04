@@ -37,6 +37,9 @@ Route::get('/dat-hang/xoa-san-pham-trong-gio-hang/{id}', 'CartController@removeV
 // Cập nhật giỏ hàng
 Route::get('/dat-hang/cap-nhat-gio-hang/{id}/{quanty}', 'CartController@SaveListItemCart')->name('shop.cart.update-to-cart');
 
+//điều khoản sử dụng
+Route::get('/dieu-khoan-su-dung','ShopController@dksd')->name('shop.dieu-khoan');
+
 // Áp dụng giảm giá
 Route::get('/dat-hang/ma-giam-gia', 'CartController@checkCoupon')->name('shop.cart.check-coupon');
 

@@ -1,4 +1,3 @@
-
 @extends('admin.layouts.main')
 @section('content')
 <div class="row page-title">

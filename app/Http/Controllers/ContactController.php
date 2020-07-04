@@ -6,7 +6,7 @@ use App\Contact;
 use App\ContactStatus;
 use Illuminate\Http\Request;
 
-class ContactController extends Controller
+class ContactController extends GeneralController
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class ContactController extends Controller
      */
     public function index()
     {
-        
+
         $data = Contact::all();
         return view('admin.contact.index',[
             'data' => $data

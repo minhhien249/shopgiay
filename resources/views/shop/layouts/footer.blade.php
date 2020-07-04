@@ -36,11 +36,11 @@
                 <div class="col-12">
 
                     <div class="footer-link">
-                        <a href="#">SITE MAP</a>
-                        <a href="#">SEARCH TERMS</a>
+
+                    <a href="{{route('shop.dieu-khoan')}}">ĐIỀU KHOẢN </a>
                         <a href="#">ADVANCED SEARCH</a>
-                        <a href="#">ORDERS AND RETURNS</a>
-                        <a href="#">CONTACT US</a>
+
+                    <a href="{{route('shop.contact')}}">LIÊN HỆ</a>
                     </div>
                     <p class="copyright">
                         Copyright <a href="#">Pullman</a>. All Rights Reserved

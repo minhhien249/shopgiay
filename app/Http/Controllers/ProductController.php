@@ -35,6 +35,7 @@ class ProductController extends Controller
         $brands = Brand::all();
         $vendors = Vendor::all();
 
+
         return view('admin.product.create', [
             'categories' => $categories,
             'brands' => $brands,
@@ -156,12 +157,14 @@ class ProductController extends Controller
         $categories = Category::all();
         $brands = Brand::all();
         $vendors = Vendor::all();
+        $multi = ImageUpLoad::where('product_id',$id)->get();
 
         return view('admin.product.edit', [
             'product' => $product,
             'categories' => $categories,
             'brands' => $brands,
-            'vendors' => $vendors
+            'vendors' => $vendors,
+            'multi' => $multi
         ]);
     }
 

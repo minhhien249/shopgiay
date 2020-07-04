@@ -84,9 +84,15 @@ class ImageUploadController extends Controller
      * @param  \App\ImageUpload  $imageUpload
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ImageUpload $imageUpload)
+    public function destroy($id)
     {
-        
+
+         // gọi tới hàm destroy của laravel để xóa 1 object
+        ImageUpload::destroy($id);
+        // Trả về dữ liệu json và trạng thái kèm theo thành công là 200
+        return response()->json([
+            'status' => true
+        ], 200);
     }
      public function delete(Request $request)
     {

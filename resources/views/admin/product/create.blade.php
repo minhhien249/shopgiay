@@ -124,7 +124,7 @@
 
             </form>
         </div>
-        
+
         </div>
     </section>
 @endsection
@@ -137,4 +137,3 @@
         })
     </script>
 @endsection
-

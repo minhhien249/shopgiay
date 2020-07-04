@@ -452,15 +452,29 @@
     <!-- Bootstrap theme -->
     <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css" />
     <script>
+
         function AddCart(id){
+            var quanty = $('#number').val();
             $.ajax({
                 url:'dat-hang/them-sp-vao-gio-hang/'+id,
                 type:'GET',
+                data: {
+                    quanty : quanty
+                },
             }).done(function(response){
                 RenderCart(response);
                 alertify.success('Đã thêm sản phẩm vào giỏ');
             });
         }
+        // function SaveListItemCart(id){
+        // $.ajax({
+        //         url:'/dat-hang/cap-nhat-gio-hang/'+ id + '/ '+ $("#quanty-item-"+id).val(),
+        //         type:'GET',
+        //     }).done(function(response){
+        //         RenderViewCart(response);
+        //         alertify.success('Đã cập nhật sản phẩm ');
+        //     });
+        //  }
         $('#item-cart').on("click",".del-icon i",function(){
             $.ajax({
                 url:'dat-hang/xoa-sp-gio-hang/'+$(this).data("id"),

@@ -26,6 +26,7 @@ class CartController extends ShopController
         if (!$product) {
             return $this->notfound();
         }
+
         // Kiểm tra tồn tại giỏ hàng cũ
         $oldcart = Session('Cart') ? Session('Cart') : '';
         // Khởi tạo giỏ hàng
@@ -82,6 +83,22 @@ class CartController extends ShopController
 
    // Cập nhật lại giỏ hàng
     public function SaveListItemCart(Request $request, $id, $quanty){
+
+
+        // check nhập số lượng không đúng định dạng
+        $validator = Validator::make($request->all(), [
+            'quanty' => 'required|numeric|min:1',
+        ]);
+
+        // check số lượng lỗi
+        if ($validator->fails()) {
+            return response()->json([
+                'status'  => false ,
+                'data' => $validator
+            ]);
+        }
+        $product_id = $request->input('id');
+
          // Kiểm tra tồn tại giỏ hàng cũ
         $oldcart = Session('Cart') ? session('Cart') : '';
         // Khởi tạo giỏ hàng
@@ -92,7 +109,11 @@ class CartController extends ShopController
         $request->Session()->put('Cart',$newCart);
 
 
-        return view('shop.components.view-list-cart');
+        // return view('shop.components.view-list-cart');
+        return response()->json([
+
+            'data' => view('shop.components.view-list-cart')->render()
+        ]);
     }
 
      // Check mã giảm giá

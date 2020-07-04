@@ -266,6 +266,10 @@ class ShopController extends GeneralController
             $blogs = Blog::all();
             return view('shop.blog-detalis',['blogs' => $blogs]);
         }
+        public function dksd()
+        {
+            return view('shop.dksd');
+        }
 
 
 
